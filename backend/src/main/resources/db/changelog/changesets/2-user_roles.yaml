@@ -1,0 +1,128 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2-role_table
+      author: steklopod
+      comment: "Создание таблицы справочника ролей [role]"
+      changes:
+        - createTable:
+            tableName: role
+            columns:
+              - column:
+                  name: role
+                  type: varchar(30)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: role_pkey
+  - changeSet:
+      id: 3-user_roles_table
+      author: steklopod
+      comment: "Создание таблицы ролей пользователя [user_roles]"
+      changes:
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_email
+                  type: varchar(55)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(30)
+                  constraints:
+                    foreignKeyName: fk_role
+                    references: role(role)
+                    nullable: false
+        - addPrimaryKey:
+            columnNames: user_email, role
+            constraintName: user_roles_pkey
+            tableName: user_roles
+
+  - changeSet:
+      id: 2-ForeignKeyConstraint-user_role
+      author: steklopod
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_user_roles
+            baseTableName: user_roles
+            baseColumnNames: user_email
+            referencedTableName: user
+            referencedColumnNames: email
+            onDelete: CASCADE
+            onUpdate: CASCADE
+            validate: true
+
+  ############
+  # ВСТАВКА #
+  ##########
+  - changeSet:
+      id: 2-role_catalogue
+      author: steklopod
+      comment: "Вставка тестовых данных в [role]"
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: role
+                  value: GUEST
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: role
+                  value: USER
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: role
+                  value: ADMIN
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: role
+                  value: TEST
+
+  - changeSet:
+      id: 3-user_roles_insert
+      author: steklopod
+      comment: "Вставка тестовых данных в [user_roles]"
+      changes:
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_email
+                  value: tmtaniuha@gmail.com
+              - column:
+                  name: role
+                  value: USER
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_email
+                  value: tmtaniuha@gmail.com
+              - column:
+                  name: role
+                  value: ADMIN
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_email
+                  value: steklopod@gmail.com
+              - column:
+                  name: role
+                  value: USER
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_email
+                  value: steklopod@gmail.com
+              - column:
+                  name: role
+                  value: ADMIN

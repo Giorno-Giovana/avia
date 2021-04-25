@@ -1,0 +1,1018 @@
+openapi: 3.0.1
+info:
+  title: BACKEND
+  description: API
+  version: "1.0"
+servers:
+- url: https://colaba.space/api/
+  variables: {}
+paths:
+  /user:
+    post:
+      tags:
+      - user-controller
+      summary: "@me: Find User JWT token in `Authorization` header"
+      operationId: getUser
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+      - 'Bearer ': []
+  /telegram/late:
+    post:
+      tags:
+      - telegram-controller
+      operationId: lateRace
+      parameters:
+      - name: chatId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+  /telegram/generic:
+    post:
+      tags:
+      - telegram-controller
+      operationId: push
+      parameters:
+      - name: chatId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TgmPushDto'
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+  /telegram/food:
+    post:
+      tags:
+      - telegram-controller
+      operationId: buyFood
+      parameters:
+      - name: chatId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+  /telegram/fast-track:
+    post:
+      tags:
+      - telegram-controller
+      operationId: buyFatTrack
+      parameters:
+      - name: chatId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+  /registration:
+    post:
+      tags:
+      - registration-controller
+      summary: "User registration + confirmation to email. [Referer] Parameter/Сookie/Header\
+        \ or Parameter expected"
+      operationId: registerNewUser
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TokenInfo'
+  /login:
+    post:
+      tags:
+      - login-controller
+      operationId: login
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TokenInfo'
+  /image/{email}:
+    post:
+      tags:
+      - image-controller
+      summary: Save image (reserve/not used now)
+      operationId: uploadImage
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                type: string
+  /guest/reserve/{id}:
+    get:
+      tags:
+      - guest-controller
+      operationId: getFromCache
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+    post:
+      tags:
+      - guest-controller
+      operationId: putIntoCache
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+  /user/karma:
+    patch:
+      tags:
+      - user-controller
+      summary: "Управление балансом, пример: -666 (вычесть), 666(начислить)"
+      operationId: updateKarma
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+        required: true
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int32
+  /guest/{username}:
+    get:
+      tags:
+      - guest-controller
+      summary: Is @username exists?
+      operationId: userExist
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: boolean
+  /guest/hello:
+    get:
+      tags:
+      - guest-controller
+      summary: Кирилические пнграммы (3 шт)
+      operationId: pangramms
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+  /mail/unsubscribe/{email}:
+    get:
+      tags:
+      - mail-controller
+      summary: Unsubscribe (for spam test)
+      operationId: unsubscribe_1
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+    put:
+      tags:
+      - mail-controller
+      summary: Unsubscribe (for spam test)
+      operationId: unsubscribe_4
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+    post:
+      tags:
+      - mail-controller
+      summary: Unsubscribe (for spam test)
+      operationId: unsubscribe_5
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+    delete:
+      tags:
+      - mail-controller
+      summary: Unsubscribe (for spam test)
+      operationId: unsubscribe_6
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+    options:
+      tags:
+      - mail-controller
+      summary: Unsubscribe (for spam test)
+      operationId: unsubscribe_2
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+    head:
+      tags:
+      - mail-controller
+      summary: Unsubscribe (for spam test)
+      operationId: unsubscribe
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+    patch:
+      tags:
+      - mail-controller
+      summary: Unsubscribe (for spam test)
+      operationId: unsubscribe_3
+      parameters:
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                type: string
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                type: string
+        "507":
+          description: Insufficient Storage
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+components:
+  schemas:
+    Telegram:
+      required:
+      - chatId
+      - isDone
+      - status
+      - userId
+      type: object
+      properties:
+        userEmail:
+          type: string
+        userId:
+          type: integer
+          format: int64
+        chatId:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+          - STARTED
+          - LOGGED_IN
+          - COORDINATES
+        loginTriggerStart:
+          type: string
+          format: date-time
+        isDone:
+          type: boolean
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        user:
+          $ref: '#/components/schemas/User'
+    User:
+      required:
+      - email
+      - karma
+      - photos
+      - scope
+      type: object
+      properties:
+        email:
+          type: string
+        nickname:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        karma:
+          type: integer
+          format: int32
+        telegram:
+          $ref: '#/components/schemas/Telegram'
+        scope:
+          type: array
+          items:
+            type: string
+            enum:
+            - GUEST
+            - USER
+            - TEST
+            - ADMIN
+        photos:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        fullName:
+          type: string
+    PageDto:
+      required:
+      - page
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        page:
+          type: string
+    TgmAddress:
+      required:
+      - latitude
+      - longitude
+      type: object
+      properties:
+        longitude:
+          type: number
+          format: float
+        latitude:
+          type: number
+          format: float
+    TgmPushDto:
+      required:
+      - actions
+      - color
+      - currentTime
+      - floor
+      - isDirectionRight
+      - itemsToDo
+      - showTicketField
+      - status
+      - timeToFlight
+      type: object
+      properties:
+        currentTime:
+          type: string
+        timeToFlight:
+          type: string
+        status:
+          type: string
+        itemsToDo:
+          type: array
+          items:
+            type: string
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageDto'
+        color:
+          type: string
+        floor:
+          type: string
+        showTicketField:
+          type: boolean
+        isDirectionRight:
+          type: boolean
+        currentAddress:
+          $ref: '#/components/schemas/TgmAddress'
+    TokenInfo:
+      required:
+      - access_token
+      - authorization_endpoint
+      - client_id
+      - expires_in
+      - redirect_uri
+      - refresh_token
+      - refresh_token_expires_in
+      - refresh_token_key
+      - response_type
+      - scope
+      - state
+      - token
+      - token_key
+      - token_type
+      - userinfo_endpoint
+      type: object
+      properties:
+        access_token:
+          type: string
+        token:
+          type: string
+        refresh_token:
+          type: string
+        response_type:
+          type: string
+        redirect_uri:
+          type: string
+        client_id:
+          type: string
+        scope:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        token_type:
+          type: string
+        authorization_endpoint:
+          type: string
+        userinfo_endpoint:
+          type: string
+        expires_in:
+          type: integer
+          format: int32
+        refresh_token_expires_in:
+          type: integer
+          format: int32
+        token_key:
+          type: string
+        refresh_token_key:
+          type: string
+        state:
+          type: string

@@ -1,0 +1,33 @@
+server:
+  port: 8443
+spring:
+  application:
+    domain: colaba.space
+  main.banner-mode: off
+  datasource:
+    username: sa
+    password: sa
+    url: jdbc:h2:mem:hackdb
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    open-in-view: false
+    hibernate.ddl-auto: validate
+    properties.hibernate.enable_lazy_load_no_trans: true
+  main.allow-bean-definition-overriding: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+  output.ansi.enabled: ALWAYS
+  servlet.multipart.max-file-size: 10MB
+  mail:
+    host: smtp.yandex.ru
+    port: 465
+    username: support@colaba.space
+    password: <password>
+    protocol: smtps
+telegram:
+  access-key: 1778793318:AAFssLMEt1N86OzaJzoHu3kffIvT7azSM9A
+  bot-name: colaba_bot

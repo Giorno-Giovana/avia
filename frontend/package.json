@@ -1,0 +1,41 @@
+{
+  "name": "frontend",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
+    "lintfix": "eslint --fix --ext .ts,.js,.vue --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "@mapbox/mapbox-gl-geocoder": "latest",
+    "@nuxtjs/auth-next": "latest",
+    "@nuxtjs/axios": "latest",
+    "@nuxtjs/dotenv": "latest",
+    "aos": "latest",
+    "js-cookie": "latest",
+    "mapbox-gl": "latest",
+    "nuxt": "latest",
+    "nuxt-healthcheck": "latest"
+  },
+  "devDependencies": {
+    "@mdi/js": "latest",
+    "@nuxt/types": "latest",
+    "@nuxt/typescript-build": "latest",
+    "@nuxtjs/date-fns": "latest",
+    "@nuxtjs/eslint-config": "latest",
+    "@nuxtjs/eslint-config-typescript": "latest",
+    "@nuxtjs/pwa": "latest",
+    "@nuxtjs/vuetify": "latest",
+    "@types/aos": "latest",
+    "@types/js-cookie": "latest",
+    "babel-eslint": "latest",
+    "eslint": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-nuxt": "latest",
+    "prettier": "latest",
+    "vuetify": "*"
+  }
+}

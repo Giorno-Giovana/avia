@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  backend:
+    container_name: backend
+    build: ./backend
+    volumes:
+      - static:/app/static
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://backend:8443/actuator/health"]
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-I", "http://frontend:3000/healthcheck" ]
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - 443:443
+    volumes:
+      - static:/var/www/static
+    restart: always
+    healthcheck:
+      test: ["CMD", "service", "nginx", "status"]
+
+volumes:
+  static:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $PWD/static

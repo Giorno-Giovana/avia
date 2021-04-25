@@ -1,0 +1,95 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-user
+      author: steklopod
+      comment: "Создание таблицы [user]"
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: email
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_pkey
+              - column:
+                  name: first_name
+                  type: varchar(256)
+              - column:
+                  name: last_name
+                  type: varchar(256)
+              - column:
+                  name: nickname
+                  type: varchar(55)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(255)
+              - column:
+                  name: karma
+                  type: integer
+                  defaultValueNumeric: 0
+              - column:
+                  name: enabled
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: created
+                  type: timestamptz
+                  defaultValueDate: now()
+              - column:
+                  name: updated
+                  type: timestamptz
+
+  ############
+  # ВСТАВКА #
+  ##########
+  - changeSet:
+      id: 1-user_test
+      author: steklopod
+      comment: "Вставка тестовых данных в таблицу [user]"
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: email
+                  value: steklopod@gmail.com
+              - column:
+                  name: first_name
+                  value: Дмитрий
+              - column:
+                  name: last_name
+                  value: Колтович
+              - column:
+                  name: nickname
+                  value: Zero7
+              - column:
+                  name: karma
+                  value: 666
+              - column:
+                  name: password
+                  value: $2a$10$/32CV0lMu5pGG9hZP2bp1ujekReChQfGnmUegXRUnB9pSdRuyjolS
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: email
+                  value: tmtaniuha@gmail.com
+              - column:
+                  name: nickname
+                  value: BOSS
+              - column:
+                  name: first_name
+                  value: Татьяна
+              - column:
+                  name: last_name
+                  value: Стеблова
+              - column:
+                  name: karma
+                  value: 984
+              - column:
+                  name: password
+                  value: $2a$10$/32CV0lMu5pGG9hZP2bp1ujekReChQfGnmUegXRUnB9pSdRuyjolS

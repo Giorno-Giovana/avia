@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4-telegram
+      author: steklopod
+      comment: "Создание таблицы [telegram]"
+      changes:
+        - createTable:
+            tableName: telegram
+            columns:
+              - column:
+                  name: user_email
+                  type: varchar(256)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: telegram_pkey
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    unique: true
+              - column:
+                  name: chat_id
+                  type: bigint
+                  constraints:
+                    unique: true
+              - column:
+                  name: login_trigger_start
+                  type: timestamptz
+              - column:
+                  name: status
+                  type: varchar(255)
+              - column:
+                  name: is_done
+                  type: boolean
+                  defaultValue: false
+              - column:
+                  name: created
+                  type: timestamptz
+                  defaultValueDate: now()
+              - column:
+                  name: updated
+                  type: timestamptz
